@@ -18,7 +18,7 @@
 *)
 
 open Printf2
-
+(* 定义数据类型 *)
 type value =
   | String of string
   | Int of int64
@@ -26,22 +26,22 @@ type value =
   | Dictionary of (string * value) list
 
 let decode s =
-  let len = String.length s in
-  let rec decode s pos len =
-    if pos >= len then assert false;
+  let len = String.length s in (* 计算字符串的长度 *)
+  let rec decode s pos len = (* 第归解析数据 *)
+    if pos >= len then assert false; (* 触发报错 *)
     match s.[pos] with
-     '0'..'9' ->
-        let rec iter_i s pos len =
+     '0'..'9' -> (* 字符串数据 "abc" => 3:abc *)
+        let rec iter_i s pos len = (* 寻找 `:` 的位置  *)
            if pos = len then pos else
            match s.[pos] with
              '0' .. '9' -> iter_i s (pos+1) len
             | ':' -> pos
             | _ -> assert false
         in
-        let end_pos = iter_i s (pos+1) len in
-        let size = int_of_string (String.sub s pos (end_pos-pos)) in
-        String (String.sub s (end_pos+1) size), (end_pos+1+size)
-   | 'i' ->
+        let end_pos = iter_i s (pos+1) len in (* 获取字符串最后一个位置 *)
+        let size = int_of_string (String.sub s pos (end_pos-pos)) in (* 编码中字符串的长度 *)
+        String (String.sub s (end_pos+1) size), (end_pos+1+size) (* 截取对应的字符串 *)
+   | 'i' -> (* 整形数据 123 => i123e i开头e结尾 *)
         let rec iter_i s pos len =
            if pos = len then assert false;
            match s.[pos] with
@@ -52,7 +52,7 @@ let decode s =
         let number = String.sub s (pos+1) (end_pos-pos-1) in
         (Int (try Int64.of_string number with _ -> Int64.of_float (float_of_string number))),
           (end_pos+1)
-   | 'l' ->
+   | 'l' -> (* 列表数据 List<"abc", 123> => l3:abci123ee l开头e结尾 *)
         let rec iter s pos len list =
           if pos = len then assert false;
           match s.[pos] with
@@ -62,8 +62,7 @@ let decode s =
                iter s pos len (v :: list)
         in
         iter s (pos+1) len []
-   | 'd' ->
-
+   | 'd' -> (* 字典数据 Dictionary<{"name":"create chen"},{"age":23}> => d4:name11:create chen3:agei23ee d开头e结尾 *)
         let rec iter s pos len list =
           if pos = len then assert false;
           match s.[pos] with
