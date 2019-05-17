@@ -18,7 +18,7 @@ let lprintf_nl fmt = Printf2.lprintf_nl2 log_prefix fmt
 
 (** node ID type *)
 type id = H.t
-let show_id h = let s = H.to_hexa h in (String.sub s 0 7 ^ ".." ^ String.sub s 17 3)
+let show_id h = let s = H.to_hexa h in (String.sub s 0 7 ^ ".." ^ String.sub s 17 3) (* 显示sha1的部分前7位和后3位 *)
 type addr = Ip.t * int
 
 type time = int
