@@ -17,11 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open BasicSocket
 open Printf2
 open CommonGlobals
-open CommonNetwork
-open Options
 open CommonTypes
 
 
@@ -39,8 +36,8 @@ let string_of_query q =
     | QHasMinVal (f,v) -> Printf.sprintf "[%s]>%Ld" (string_of_field f) v
     | QHasMaxVal (f,v) -> Printf.sprintf "[%s]<%Ld" (string_of_field f) v
     | QNone ->
-	lprintf "QNone in query\n";
-	""
+        lprintf "QNone in query\n";
+        ""
   in
   iter q
 
@@ -58,7 +55,7 @@ let rec rec_simplify_query q =
     QAnd (q1, q2) ->
       (
        match (rec_simplify_query q1, rec_simplify_query q2) with
-	QNone, QNone -> QNone
+        QNone, QNone -> QNone
        | QNone, q2' -> q2'
        | q1', QNone -> q1'
        | q1', q2' -> QAnd (q1',q2')
@@ -66,7 +63,7 @@ let rec rec_simplify_query q =
   | QOr (q1, q2) ->
       (
        match (rec_simplify_query q1, rec_simplify_query q2) with
-	 QNone, QNone -> QNone
+         QNone, QNone -> QNone
        | QNone, q2' -> q2'
        | q1', QNone -> q1'
        | q1', q2' -> QOr (q1',q2')
@@ -74,7 +71,7 @@ let rec rec_simplify_query q =
   | QAndNot (q1, q2) ->
       (
        match (rec_simplify_query q1, rec_simplify_query q2) with
-	 QNone, QNone -> QNone
+         QNone, QNone -> QNone
        | QNone, q2' -> QNone
        | q1', QNone -> q1'
        | q1', q2' -> QAndNot (q1',q2')
@@ -169,8 +166,8 @@ module Make(Stored : sig
               index_string s format_bit
           | { tag_name = Field_Type; tag_value = String s } -> 
               index_string  s media_bit
-          | { tag_name = Field_Length } -> ()
-          | { tag_value = String s } -> 
+          | { tag_name = Field_Length; tag_value = _ } -> ()
+          | { tag_name = _; tag_value = String s } -> 
               index_string s name_bit
           | _ -> ()
       ) (Stored.result_tags r);
@@ -299,7 +296,6 @@ module Make(Stored : sig
         end) = struct      
         
         open FilterResult
-        open Document
         
         let index = DocIndexer.create ()
         

@@ -17,7 +17,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open Int64ops
 open Options
 open Printf2
 open Md4
@@ -28,16 +27,12 @@ open GuiTypes
 open CommonInteractive
 open CommonOptions
 open CommonGlobals
-open CommonComplexOptions
 open CommonClient
 open CommonFile
 open CommonUser
 open CommonNetwork
-open CommonRoom
 open CommonServer
-open CommonResult
 open CommonTypes
-open CommonSearch
   
 open DcTypes
 open DcOptions
@@ -103,7 +98,7 @@ let parse_url url user group =
     match List2.filter_map (function TigerTree tth -> Some tth | _ -> None) magnet#uids with
     | [] -> "No TTH found in magnet url", false
     | tth::_ ->
-      let _ = start_new_download None (TigerTree.to_string tth) "" magnet#name (opt_default 0L magnet#size) in
+      let (_ : _ option) = start_new_download None (TigerTree.to_string tth) "" magnet#name (opt_default 0L magnet#size) user group in
       magnet#name, true
 
 (* register DC commands *)
@@ -1021,7 +1016,8 @@ msgWindow.location.reload();
         (try 
           let u = search_user_by_name uname in
           let user = o.conn_user.ui_user in
-          ignore (start_new_download (Some u) tth !sdir !sname (Int64.of_string fsize) user user.user_default_group)
+          let (_ : _ option) = start_new_download (Some u) tth !sdir !sname (Int64.of_string fsize) user user.user_default_group in
+          ()
         with _ -> if !verbose_download then lprintf_nl "dcloadfile: No user found" )
     | _ ->
         if !verbose_unexpected_messages then

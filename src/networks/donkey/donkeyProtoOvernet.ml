@@ -18,7 +18,6 @@
 *)
 
 open Printf2
-open Md4
 open AnyEndian
 open BasicSocket
 open CommonOptions
@@ -214,10 +213,10 @@ module Proto = struct
                         peer_ip := Ip.of_string ip;
                         peer_tcpport := int_of_string port;
                     | _ ->
-        		if !verbose_overnet then
+                        if !verbose_overnet then
                           lprintf_nl "Ill formed bcp: [%s]" bcp;
                   else
-		    if !verbose_overnet then
+                    if !verbose_overnet then
                       lprintf_nl "Ill formed bcp: [%s]" bcp;
               )
           | _ ->

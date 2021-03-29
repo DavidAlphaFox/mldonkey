@@ -104,7 +104,7 @@ let rec unsplit l c =
   match l with
     [] -> ""
   | [x] -> x
-  | x :: ((y :: l) as tail) ->
+  | x :: ((_ :: _) as tail) ->
       Printf.sprintf "%s%c%s" x c (unsplit tail c)
 ;;
 
@@ -170,7 +170,7 @@ let upp_initial s =
     s
     
 (* not optimal !*)
-let rec subequal s1 pos1 s2 pos2 len =
+let subequal s1 pos1 s2 pos2 len =
   let len1 = String.length s1 in
   let len2 = String.length s2 in
   pos1 + len <= len1 &&

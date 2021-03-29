@@ -19,7 +19,6 @@
 
 open Printf2
 open Md4
-open Autoconf
 open LittleEndian
 open AnyEndian
 
@@ -325,7 +324,6 @@ end
 module QueryServersUdp = DonkeyProtoServer.QueryServers
 module QueryServersReplyUdp = DonkeyProtoServer.QueryServersReply
 module QueryLocationUdp = struct
-  open DonkeyProtoServer.QueryLocation
 
     type t = Md4.t list
 
@@ -627,12 +625,12 @@ let write buf t =
           QueryIDReplyUdp.write buf t
 
       | EmulePortTestReq ->
-	  buf_int8 buf 2;
-	  buf_int8 buf 0;
-	  buf_int8 buf 0;
-	  buf_int8 buf 0;
-	  buf_int8 buf 0xfe;
-	  buf_int8 buf 0x31
+          buf_int8 buf 2;
+          buf_int8 buf 0;
+          buf_int8 buf 0;
+          buf_int8 buf 0;
+          buf_int8 buf 0xfe;
+          buf_int8 buf 0x31
 
       | EmuleQueueFullUdpReq
       | EmuleFileNotFoundUdpReq

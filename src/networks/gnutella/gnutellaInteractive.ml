@@ -17,17 +17,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open Autoconf
 open Int64ops
-open Xml_types
 open Printf2
 open Md4
 open Options
 open BasicSocket
 
 open CommonUploads
-open CommonDownloads
-open CommonSearch
 open CommonGlobals
 open CommonUser
 open CommonClient
@@ -35,7 +31,6 @@ open CommonOptions
 open CommonServer
 open CommonResult
 open CommonTypes
-open CommonComplexOptions
 open CommonFile
 open CommonInteractive
 open CommonHosts
@@ -44,8 +39,6 @@ open GnutellaHandler
 open GnutellaTypes
 open GnutellaOptions
 open GnutellaGlobals
-open GnutellaComplexOptions
-open GnutellaProtocol
 
 module VB = VerificationBitmap
 
@@ -317,12 +310,12 @@ let _ =
         
          P.file_chunks = (match file.file_swarmer with
          | None -> None 
-	 | Some swarmer -> 
-	     Some (CommonSwarming.chunks_verified_bitmap swarmer));
+         | Some swarmer -> 
+             Some (CommonSwarming.chunks_verified_bitmap swarmer));
         P.file_chunk_size = (match file.file_swarmer with
          | None -> None
-	 | Some t ->
-	     Some (List.map (fun t -> t.CommonSwarming.t_chunk_size) t.CommonSwarming.t_s.CommonSwarming.s_networks));
+         | Some t ->
+             Some (List.map (fun t -> t.CommonSwarming.t_chunk_size) t.CommonSwarming.t_s.CommonSwarming.s_networks));
         P.file_availability =   [network.network_num,
            (match file.file_swarmer with
            None -> "" | Some swarmer ->
@@ -529,7 +522,6 @@ let _ =
   )
 
 open Queues
-open GuiTypes
   
 let commands = [
     "gstats", "Network/Gnutella", Arg_none (fun o ->

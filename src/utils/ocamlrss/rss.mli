@@ -42,6 +42,7 @@ val float_to_date : float -> date
 val string_of_date : ?fmt: string -> date -> string
 
 type email = string (** can be, for example: foo\@bar.com (Mr Foo Bar) *)
+
 type url = string
 type category = 
     {
@@ -125,35 +126,35 @@ type channel =
 val item : 
     ?title: string ->
       ?link: url ->
-	?desc: string ->
-	  ?pubdate: date ->
-	    ?author: email ->
-	      ?cats: category list ->
-		?comments: url ->
-		  ?encl: enclosure ->
-		    ?guid: guid ->
-		      ?source: source ->
-			unit ->
-			  item
+        ?desc: string ->
+          ?pubdate: date ->
+            ?author: email ->
+              ?cats: category list ->
+                ?comments: url ->
+                  ?encl: enclosure ->
+                    ?guid: guid ->
+                      ?source: source ->
+                        unit ->
+                          item
 
 val channel :
     title: string ->
       link: url ->
-	desc: string ->
-	  ?language: string ->
-	    ?copyright: string ->
-	      ?managing_editor: email ->
-		?webmaster: email ->
-		  ?pubdate: date ->
-		    ?last_build_date: date ->
-		      ?cats: category list ->
-			?generator: string ->
-			  ?docs: url ->
-			    ?ttl: int ->
-			      ?image: image ->
-				?text_input: text_input ->
-				  item list ->
-				    channel
+        desc: string ->
+          ?language: string ->
+            ?copyright: string ->
+              ?managing_editor: email ->
+                ?webmaster: email ->
+                  ?pubdate: date ->
+                    ?last_build_date: date ->
+                      ?cats: category list ->
+                        ?generator: string ->
+                          ?docs: url ->
+                            ?ttl: int ->
+                              ?image: image ->
+                                ?text_input: text_input ->
+                                  item list ->
+                                    channel
 
 (** {2 Reading channels} *)
 

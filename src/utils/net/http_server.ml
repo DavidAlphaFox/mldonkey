@@ -19,8 +19,6 @@
 
 open Printf2
 open BasicSocket
-open TcpBufferedSocket
-open Ip_set
 
 let verbose = ref false
 
@@ -247,15 +245,15 @@ let error_page reason my_ip my_port =
       Printf.sprintf "The requested URL %s was not found on this server." (html_escaped url)
   in
   let reject_message = Printf.sprintf
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html>
-<head><title>%d %s</title></head>\n<h1>%d %s</h1>\n%s
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n<html>\
+<head><title>%d %s</title></head>\n<h1>%d %s</h1>\n%s\
 <hr><address>MLDonkey/%s at %s Port %d</address></html>"
     http_code error_text http_code error_text error_text_long
     Autoconf.current_version (Ip.to_string my_ip) my_port
   in
   let headers = String.concat "\n" (List.map (fun (k,v) -> k ^ ": " ^ v) headers) in
   Printf.sprintf
-"HTTP/1.1 %d %s\nServer: MLDonkey/%s\nConnection: close
+"HTTP/1.1 %d %s\nServer: MLDonkey/%s\nConnection: close\n\
 Content-Type: text/html; charset=iso-8859-1\n%sContent-length: %d\r\n"
     http_code error_text Autoconf.current_version headers (String.length reject_message), reject_message,
   Printf.sprintf "%d %s" http_code error_text
@@ -832,16 +830,16 @@ let handler config t event =
     (* check here if ip is OK *)
       let from_ip = Ip.of_inet_addr from_ip in
       let ip_is_allowed from_ip =
-	Ip_set.match_ip config.addrs from_ip
+        Ip_set.match_ip config.addrs from_ip
       in
       let ip_is_blocked from_ip =
-	if config.use_ip_block_list then
-	  match !Ip.banned (from_ip, None) with
+        if config.use_ip_block_list then
+          match !Ip.banned (from_ip, None) with
             None -> false
            | Some reason -> lprintf_nl "%s:%d blocked: %s"
                (Ip.to_string from_ip) from_port reason; true
         else
-	  false
+          false
       in 
       if ip_is_allowed from_ip && not (ip_is_blocked from_ip) then
         let token = create_token unlimited_connection_manager in
@@ -856,15 +854,15 @@ let handler config t event =
       else begin
         lprintf_nl "connection from %s rejected (%s)"
           (Ip.to_string from_ip)
-	  (if ip_is_blocked from_ip then "IP is blocked" else "see allowed_ips setting");
+          (if ip_is_blocked from_ip then "IP is blocked" else "see allowed_ips setting");
         let token = create_token unlimited_connection_manager in
         let sock = TcpBufferedSocket.create_simple token "http connection" s in
-	let s1,s2,_ = error_page
+        let s1,s2,_ = error_page
       (if not (ip_is_allowed from_ip) then Not_allowed from_ip else Blocked from_ip)
-	    (TcpBufferedSocket.my_ip sock)
-	    config.port
-	in
-	TcpBufferedSocket.write_string sock (Printf.sprintf "%s\n%s" s1 s2);
+            (TcpBufferedSocket.my_ip sock)
+            config.port
+        in
+        TcpBufferedSocket.write_string sock (Printf.sprintf "%s\n%s" s1 s2);
         shutdown sock Closed_connect_failed;
         Unix.close s
       end
@@ -934,8 +932,6 @@ let parse_range range =
   (match z with None -> "*" | Some y -> Int64.to_string y);
   x, y, z
     *)
-
-open Int64ops
 
 (*  Range: bytes=31371876- *)
 let request_range r =

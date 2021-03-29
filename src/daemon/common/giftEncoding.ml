@@ -18,14 +18,9 @@
 *)
 
 open Printf2
-open CommonFile
-open Md4
-open CommonGlobals
 open CommonTypes
 open GuiTypes
-open GuiProto  
-open AnyEndian
-open LittleEndian
+open GuiProto
 open TcpBufferedSocket
 
 let buf = Buffer.create 1000
@@ -147,7 +142,7 @@ let translate gui t =
      SOURCE* { 
         user (username)
         url (url)
-	statusgrl (status
+        statusgrl (status
         status (protocol status)
         start (chunk start) 
         transmit (chunk transmit)

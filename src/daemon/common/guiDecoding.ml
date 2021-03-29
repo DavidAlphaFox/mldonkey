@@ -22,13 +22,11 @@
 open BasicSocket
 open Int64ops
 open Printf2
-open Md4
   
 open CommonGlobals
 open CommonTypes
 open GuiTypes
 open GuiProto
-open AnyEndian  
 open AnyEndian
 open LittleEndian
 open TcpBufferedSocket
@@ -633,7 +631,7 @@ let get_file proto s pos =
     file_state = state;
     file_chunks = 
       if chunks <> "" then 
-	Some (VerificationBitmap.of_string chunks)
+        Some (VerificationBitmap.of_string chunks)
       else None;
     file_chunk_size = None;
     file_availability = availability;

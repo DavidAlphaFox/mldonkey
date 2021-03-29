@@ -104,19 +104,19 @@ let parse_argv argv speclist anonfun errmsg =
             | Int f when !current + 1 < l ->
                 let arg = argv.(!current+1) in
                 begin try f (int_of_string arg)
-                  with Failure "int_of_string" -> stop (Wrong (s, arg, "an integer"))
+                  with Failure _ -> stop (Wrong (s, arg, "an integer"))
                 end;
                 incr current;
             | Int64 f when !current + 1 < l ->
                 let arg = argv.(!current+1) in
                 begin try f (Int64.of_string arg)
-                  with Failure "int64_of_string" -> stop (Wrong (s, arg, "an integer64"))
+                  with Failure _ -> stop (Wrong (s, arg, "an integer64"))
                 end;
                 incr current;
             | Float f when !current + 1 < l ->
                 let arg = argv.(!current+1) in
                 begin try f (float_of_string arg);
-                  with Failure "float_of_string" -> stop (Wrong (s, arg, "a float"))
+                  with Failure _ -> stop (Wrong (s, arg, "a float"))
                 end;
                 incr current;
             | Array (n, f) when n>0 && !current + n < l ->
@@ -154,19 +154,19 @@ let parse_argv argv speclist anonfun errmsg =
               | Int f when !current + 1 < l ->
                   let arg = argv.(!current+1) in
                   begin try f (int_of_string arg)
-                    with Failure "int_of_string" -> stop (Wrong (s, arg, "an integer"))
+                    with Failure _ -> stop (Wrong (s, arg, "an integer"))
                   end;
                   incr current;
               | Int64 f when !current + 1 < l ->
                   let arg = argv.(!current+1) in
                   begin try f (Int64.of_string arg)
-                    with Failure "int64_of_string" -> stop (Wrong (s, arg, "an integer64"))
+                    with Failure _ -> stop (Wrong (s, arg, "an integer64"))
                   end;
                   incr current;
               | Float f when !current + 1 < l ->
                   let arg = argv.(!current+1) in
                   begin try f (float_of_string arg);
-                    with Failure "float_of_string" -> stop (Wrong (s, arg, "a float"))
+                    with Failure _ -> stop (Wrong (s, arg, "a float"))
                   end;
                   incr current;
               | Array (n, f) when n>0 && !current + n < l ->
@@ -240,19 +240,19 @@ let parse2_argv argv speclist anonfun errmsg =
             | Int f when !current + 1 < l ->
                 let arg = argv.(!current+1) in
                 begin try f (int_of_string arg)
-                  with Failure "int_of_string" -> stop (Wrong (s, arg, "an integer"))
+                  with Failure _ -> stop (Wrong (s, arg, "an integer"))
                 end;
                 incr current;
             | Int64 f when !current + 1 < l ->
                 let arg = argv.(!current+1) in
                 begin try f (Int64.of_string arg)
-                  with Failure "int64_of_string" -> stop (Wrong (s, arg, "an integer64"))
+                  with Failure _ -> stop (Wrong (s, arg, "an integer64"))
                 end;
                 incr current;
             | Float f when !current + 1 < l ->
                 let arg = argv.(!current+1) in
                 begin try f (float_of_string arg);
-                  with Failure "float_of_string" -> stop (Wrong (s, arg, "a float"))
+                  with Failure _ -> stop (Wrong (s, arg, "a float"))
                 end;
                 incr current;
             | Array (n, f) when n>0 && !current + n < l ->

@@ -24,7 +24,6 @@
 
 open Printf2
 open BasicSocket
-open Unix
 open Url
 open TcpBufferedSocket
 open Int64ops
@@ -74,7 +73,7 @@ let lprintf_nl fmt =
   lprintf_nl2 log_prefix fmt
 
 let basic_request = {
-    req_url = Url.of_string "http://www.mldonkey.org/";
+    req_url = Url.of_string "http://mldonkey.sf.net/";
     req_referer = None;
     req_save_to_file_time = 0.;
     req_request = GET;

@@ -93,7 +93,7 @@ SRC_FILETP=src/networks/fileTP
 SUBDIRS=$(EXTLIB) $(CDK) $(BITSTRING) $(LIB) $(RSS) $(XML) $(NET) tools \
    $(COMMON) $(DRIVER) $(MP3) src/config/$(OS_FILES)
 
-INCLUDES += $(foreach file, $(SUBDIRS), -I $(file)) -I +camlp4
+INCLUDES += $(foreach file, $(SUBDIRS), -I $(file)) -I +camlp4 $(NUMS_INCLUDE)
 
 CFLAGS:=$(CFLAGS) $(CONFIG_INCLUDES) $(GTKCFLAGS) $(GD_CFLAGS)
 
@@ -591,8 +591,8 @@ BITSTRING_CMXA=bitstring.cmxa
 BITSTRING_CMA=bitstring.cma
 endif
 ifeq ("$(BITTORRENT)", "yes")
-LIBS_byte += nums.cma
-LIBS_opt += nums.cmxa
+LIBS_byte += $(NUMS_INCLUDE) nums.cma
+LIBS_opt += $(NUMS_INCLUDE) nums.cmxa
 BITSTRING_CMXA=bitstring.cmxa
 BITSTRING_CMA=bitstring.cma
 endif
@@ -1711,8 +1711,7 @@ endif
 	mv $(DISDIR).tar mldonkey-tools-$(CURRENT_VERSION).static.$(MD4ARCH)-`uname -s | sed "s/\//_/"`$(GLIBC_VERSION_ARCH).tar
 	$(COMPRESS) mldonkey-tools-$(CURRENT_VERSION).static.$(MD4ARCH)-`uname -s | sed "s/\//_/"`$(GLIBC_VERSION_ARCH).tar
 
-release.sources: 
-	rm -rf **/CVS
+release.sources:
 	rm -f config/Makefile.config
 	cd ..; tar zcf mldonkey-$(CURRENT_VERSION).sources.tar.gz mldonkey
 
@@ -1721,7 +1720,6 @@ distrib: $(DISDIR)
 $(DISDIR):  static distrib/Readme.txt
 	rm -rf mldonkey-*
 	cp -R distrib $(DISDIR)
-	rm -rf $(DISDIR)/CVS
 	for i in $(RELEASE_TARGETS); do \
 	   cp $$i.static $(DISDIR)/$$i && strip  $(DISDIR)/$$i; \
 	done
@@ -1736,7 +1734,6 @@ shared: $(SHADIR)
 $(SHADIR):  static distrib/Readme.txt
 	rm -rf mldonkey-*
 	cp -R distrib $(SHADIR)
-	rm -rf $(SHADIR)/CVS
 	for i in $(RELEASE_TARGETS); do \
 	   cp $$i.static $(SHADIR)/$$i && strip  $(SHADIR)/$$i; \
 	done
@@ -1844,13 +1841,13 @@ rpm: sourcedist
 	./svg_converter.byte $@
 
 .ml.cmx :
-	$(OCAMLOPT) $(DEVFLAGSOPT) $(DEVFLAGS) $(INCLUDES) -c $<
+	$(OCAMLOPT) $(INCLUDES) -c $<
 
 .ml.cmo :
-	$(OCAMLC) $(DEVFLAGS) $(INCLUDES) -c $<
+	$(OCAMLC) $(INCLUDES) -c $<
 
 .mlcpp.ml:
-	@$(CPP) -x c -P $< $(FIX_BROKEN_CPP) > $@
+	@$(CPP) -x c -DOCAMLVERSION_MAJOR=$(OCAMLVERSION_MAJOR) -P $< $(FIX_BROKEN_CPP) > $@
 
 %.ml: %.mlp $(BITSTRING)/pa_bitstring.cmo
 	$(CAMLP4OF) build/bitstring.cma $(BITSTRING)/bitstring_persistent.cmo $(BITSTRING)/pa_bitstring.cmo -impl $< -o $@

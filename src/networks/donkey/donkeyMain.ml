@@ -21,28 +21,18 @@ open Printf2
 open Options
 
 open BasicSocket
-open TcpBufferedSocket
   
-open CommonDownloads
 open CommonNetwork
 open CommonInteractive
-open CommonClient
-open CommonFile
-open CommonComplexOptions
 open CommonTypes
 open CommonOptions
 open CommonGlobals
   
-open DonkeyMftp
 open DonkeyProtoCom
-open DonkeyServers
 open DonkeyComplexOptions
-open DonkeyOneFile
-open DonkeyFiles
 open DonkeyTypes  
 open DonkeyGlobals
 open DonkeyClient
-open DonkeyThieves
 open DonkeyOptions
 
 let log_prefix = "[EDK]"
@@ -328,7 +318,7 @@ be useful when users want to share files that they had already previously
       Options.option_hook login reset_tags;
       Options.option_hook enable_sui reset_tags;
       Options.option_hook allow_browse_share reset_tags;
-				
+                                
 (**** START TIMERS ****)
       add_session_option_timer enabler check_client_connections_delay 
         (fun _ ->

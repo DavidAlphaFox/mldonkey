@@ -22,11 +22,9 @@ open BasicSocket
 open Md4
 open Options
   
-open CommonDownloads
 open CommonSwarming  
 open CommonClient
 open CommonServer
-open CommonComplexOptions
 open CommonFile
 open CommonTypes
 open CommonOptions
@@ -560,7 +558,7 @@ let check_result r tags =
               lprintf "[%s] = [%s] " (string_of_field tag.tag_name)
                 (string_of_tag_value tag.tag_value)
           ) tags;
-	  lprint_newline ();
+          lprint_newline ();
         end;
       false
     end
@@ -568,7 +566,7 @@ let check_result r tags =
 
 (* Inserted in complexOptions to be able to access old_files (ugly) *)
 let result_of_file md4 tags =
-  let rec r = {  dummy_result with
+  let r = {  dummy_result with
       result_uids = [Uid.create (Ed2k md4)];
       result_done = (List.mem md4 !!old_files) || (Hashtbl.mem files_by_md4 md4); 
       result_source_network = network.network_num;

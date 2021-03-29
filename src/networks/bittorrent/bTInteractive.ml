@@ -25,28 +25,19 @@ open Printf2
 open Md4
 open BasicSocket
 
-open CommonSearch
 open CommonGlobals
-open CommonUser
 open CommonClient
 open CommonOptions
-open CommonServer
-open CommonResult
 open CommonTypes
 open CommonComplexOptions
 open CommonFile
-open CommonDownloads
 open CommonShared
 open CommonInteractive
-open Autoconf
 
 open BTTypes
 open BTOptions
 open BTGlobals
-open BTComplexOptions
 open BTProtocol
-
-open Bencode
 
 open Gettext
 let _s x = _s "BTInteractive" x
@@ -227,7 +218,7 @@ let get_subfiles file =
   | ((_,prio)::_ as l) ->
   let intervals = ref l in
   let prio = ref prio in
-  let rec count_intervals_till bytes =
+  let count_intervals_till bytes =
     let rec loop acc_prio = function
     | (i_start,i_prio) :: tail when i_start < bytes ->
         prio := i_prio;
@@ -334,8 +325,6 @@ let op_file_print file o =
 
   emit (_s"Filename") file.file_name;
   emit (_s"Hash") ~desc:(_s"Torrent metadata hash") (Sha1.to_hexa file.file_id);
-  emit (_s"Torrent search") ~desc:(_s"Search for similar torrent files") (Printf.sprintf
-    "\\<a target=\\\"_blank\\\" href=\\\"http://isohunt.com/%s\\\"\\>IsoHunt\\</a\\>" file.file_name);
 
   let tracker_header_printed = ref false in
   List.iter (fun tracker ->

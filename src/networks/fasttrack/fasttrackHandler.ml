@@ -21,28 +21,17 @@ open Printf2
 open Md4
 open BasicSocket
 open TcpBufferedSocket
-open Options
-open AnyEndian
 
 open CommonHosts
-open CommonResult
-open CommonDownloads
 open CommonUploads
 open CommonOptions
-open CommonSearch
-open CommonServer
-open CommonComplexOptions
 open CommonFile
 open CommonTypes
 open CommonGlobals
-open CommonInteractive
 
 open FasttrackNetwork
 open FasttrackTypes
 open FasttrackGlobals
-open FasttrackOptions
-open FasttrackProtocol
-open FasttrackComplexOptions
 open FasttrackProto
 
 let declare_shared s sh info hash =
@@ -204,7 +193,7 @@ the FasttrackSupernode module, and get rid of it. *)
               let file = Hashtbl.find files_by_uid meta.M.meta_hash in
               let c = new_client fuser.user_kind in
               add_download file c ()(* (FileByUrl url) *);
-	      add_file_filenames (as_file file) result_name
+              add_file_filenames (as_file file) result_name
 
             with _ -> ()
         ) results

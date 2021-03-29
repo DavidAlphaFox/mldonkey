@@ -36,7 +36,7 @@ let normalize filename =
     | "" :: l -> iter l
     | "." :: l -> iter l
     | ".." :: l -> let l,_ = iter l in ("..":: l), false
-    | x :: ".." :: l -> 
+    | _ :: ".." :: l -> 
         let l,_ = iter l in l, true
     | x :: l -> 
         let l, redo = iter l in if redo then iter (x :: l) else (x :: l), false
@@ -63,7 +63,7 @@ let normalize filename =
   file
 ;;
 
-let rec dirname name =
+let dirname name =
   let name = normalize name in
   try
     match String.rindex name slash with
@@ -153,7 +153,7 @@ let filesystem_compliant name fstype namemax =
     let len = String.length filename in
     let left =
       let rec aux i =
-	if i < len && p filename.[i] then aux (i+1) else i in
+        if i < len && p filename.[i] then aux (i+1) else i in
       aux 0 in
     if left = 0 then filename
     else
@@ -164,7 +164,7 @@ let filesystem_compliant name fstype namemax =
     let len = String.length filename in
     let right =
       let rec aux i =
-	if i > 0 && p filename.[i-1] then aux (i-1) else i in
+        if i > 0 && p filename.[i-1] then aux (i-1) else i in
       aux len in
     if right = len then filename
     else
@@ -182,9 +182,9 @@ let filesystem_compliant name fstype namemax =
     (* http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/fs/creating__deleting__and_maintaining_files.asp *)
     let windows_filter c = 
       minimal_filter c ||
-	match c with
-	  | '*' | '?' | '|' | ':' | '"' -> true
-	  | _ -> false in
+        match c with
+          | '*' | '?' | '|' | ':' | '"' -> true
+          | _ -> false in
 
     (* Windows has additional restrictions:
        - filenames cannot start with a '.' 
@@ -234,7 +234,7 @@ let filesystem_compliant name fstype namemax =
         if String.length ext > namemax then
           String.sub fs_checked_name 0 namemax
         else
-	  String.sub fs_checked_name 0 (namemax - (String.length ext)) ^ ext
+          String.sub fs_checked_name 0 (namemax - (String.length ext)) ^ ext
   in
   length_checked_name
 

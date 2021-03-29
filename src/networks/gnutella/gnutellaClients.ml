@@ -28,24 +28,15 @@ open Md4
 open Queues
   
 open CommonSwarming
-open CommonShared
 open CommonUploads
 open CommonOptions
-open CommonDownloads
 open CommonInteractive
-open CommonClient
-open CommonComplexOptions
 open CommonTypes
-open CommonFile
 open CommonGlobals
-open CommonDownloads  
 
-open GnutellaNetwork
 open GnutellaTypes
 open GnutellaOptions
 open GnutellaGlobals
-open GnutellaComplexOptions
-open GnutellaProto
 open GnutellaProtocol
   
 (*************************************************************************)
@@ -525,7 +516,7 @@ and get_from_client sock (c: client) =
                           lprintf "GOT BLOCKS:\n";
                           CommonSwarming.print_uploaders swarmer;
                           lprintf "Blocks Found: "; 
-			  List.iter (fun b ->
+                          List.iter (fun b ->
                             CommonSwarming.print_block b.up_block) blocks;
                         end;
                       
@@ -539,7 +530,7 @@ end;
   *)
                       try
                         let (x,y,r) = 
-			  CommonSwarming.find_range up (Int64.of_int (256 * 1024)) in 
+                          CommonSwarming.find_range up (Int64.of_int (256 * 1024)) in 
                         
                         if !verbose_swarming then begin
                             lprintf "GOT RANGE:\n";

@@ -92,6 +92,7 @@ input.txt2 {
   }
 input.but2 {
   background: @color_bsmall3@;
+  color: @color_general_text@;
   border: 0px;
   padding: 0px;
   font: bold 10px verdana;
@@ -176,6 +177,12 @@ a:hover {
 .bbig3 {
   background: @color_scrollbar_face@;
   }
+.header2 {
+  color: @color_header2_text@;
+  }
+.header3 {
+  color: @color_header3_text@;
+  }
 .b1 {
   border-left: @color_border_of_top_buttons@ solid 1px;
   border-top: @color_border_of_top_buttons@ solid 1px;
@@ -238,6 +245,12 @@ a:hover {
   margin-left: auto;
   margin-right: auto;
 }
+td.popupstyle {
+  background: @color_background_popup@;
+  }
+td.txt {
+  color: @color_general_text@;
+  }
 td.fbig {
   color: @color_general_text@;
   cursor: pointer;
@@ -367,6 +380,7 @@ td.srb {
   border-top: @color_general_border@ solid 0px;
   padding-left: 3px;
   padding-right: 3px;
+  color: @color_general_text@;
   }
 td.act {
   font-size: 10px;
@@ -456,24 +470,24 @@ function _rObj (s,ar) {
 }
 // http://slayeroffice.com/code/functions/so_getText.html
 function so_getText(obj) {
-	if(obj.textContent) return obj.textContent;
-	if (obj.nodeType == 3) return obj.data;
-	var txt = new Array(), i=0;
-	while(obj.childNodes[i]) {
-		txt[txt.length] = so_getText(obj.childNodes[i]);
-		i++;
-	}
+        if(obj.textContent) return obj.textContent;
+        if (obj.nodeType == 3) return obj.data;
+        var txt = new Array(), i=0;
+        while(obj.childNodes[i]) {
+                txt[txt.length] = so_getText(obj.childNodes[i]);
+                i++;
+        }
   return txt.join(\"\");
 }
 function _tabCreateArray(obj,st,total){
-	var tb=obj.parentNode.parentNode;
-	var rw=obj.parentNode.parentNode.rows;
-	var _nRows=rw.length-total;
-	var _tabS=new Array(_nRows-1);
-	var _nCells = rw.item(0).cells.length;
-	for(var i=1;i<_nRows;i++){
-	var _raw = so_getText(rw.item(i).cells.item(obj.cellIndex)); //.innerHTML;
-	if (st==1) {
+        var tb=obj.parentNode.parentNode;
+        var rw=obj.parentNode.parentNode.rows;
+        var _nRows=rw.length-total;
+        var _tabS=new Array(_nRows-1);
+        var _nCells = rw.item(0).cells.length;
+        for(var i=1;i<_nRows;i++){
+        var _raw = so_getText(rw.item(i).cells.item(obj.cellIndex)); //.innerHTML;
+        if (st==1) {
             var _regexp = /[TGMk]$/;
             _raw = _raw.replace(/\\(/gi, \"\");
             if (_raw.indexOf(\":\") != -1) { _raw = _raw.substring(2,99); }
@@ -485,45 +499,45 @@ function _tabCreateArray(obj,st,total){
                case \"T\": _raw = parseFloat(_raw) * 1024 * 1024 * 1024 * 1024; break;
                }
             }
-	}
-	_tabS[i-1]= new _rObj(_raw,rw.item(i).cloneNode(true));
-	}
-	if (st==1) { _tabS.sort(_cmpFloat); }
-	else { _tabS.sort(_cmpTxt); }
-	if (!_tabMode) {_tabS.reverse()}
-	for(var i=0;i<_nRows-1;i++){
-			var tr = _tabS[i].ar.cloneNode(true);
-			var oChild=tb.rows.item(i+1);
-			if (i % 2 == 0) { tr.className = 'dl-1'; }
-		               else { tr.className = 'dl-2'; }
-			tb.replaceChild(tr,oChild);
-	}
+        }
+        _tabS[i-1]= new _rObj(_raw,rw.item(i).cloneNode(true));
+        }
+        if (st==1) { _tabS.sort(_cmpFloat); }
+        else { _tabS.sort(_cmpTxt); }
+        if (!_tabMode) {_tabS.reverse()}
+        for(var i=0;i<_nRows-1;i++){
+                        var tr = _tabS[i].ar.cloneNode(true);
+                        var oChild=tb.rows.item(i+1);
+                        if (i % 2 == 0) { tr.className = 'dl-1'; }
+                               else { tr.className = 'dl-2'; }
+                        tb.replaceChild(tr,oChild);
+        }
 
 }
 function _cmpTxt(a,b) {
-	if (_tabMode) {
-		if (a.s==\"\") { if (b.s !=\"\") { return 1;} }
-		if (b.s==\"\") { if (a.s !=\"\") { return -1;} }
-	}
-	if (a.s.toUpperCase() < b.s.toUpperCase()) {return -1;}
-	if (a.s.toUpperCase() > b.s.toUpperCase()) {return 1;}
-	return 0;
+        if (_tabMode) {
+                if (a.s==\"\") { if (b.s !=\"\") { return 1;} }
+                if (b.s==\"\") { if (a.s !=\"\") { return -1;} }
+        }
+        if (a.s.toUpperCase() < b.s.toUpperCase()) {return -1;}
+        if (a.s.toUpperCase() > b.s.toUpperCase()) {return 1;}
+        return 0;
 }
 function _cmpFloat(a,b) {
-	if (!_tabMode) {
-		if (a.s==\"\") { if (b.s !=\"\") { return -1;} }
-		if (b.s==\"\") { if (a.s !=\"\") { return 1;} }
-	}
-	if (isNaN(parseFloat(a.s))) {return 1;}
-	if (isNaN(parseFloat(b.s))) {return -1;}
-	return (parseFloat(b.s) - parseFloat(a.s));
+        if (!_tabMode) {
+                if (a.s==\"\") { if (b.s !=\"\") { return -1;} }
+                if (b.s==\"\") { if (a.s !=\"\") { return 1;} }
+        }
+        if (isNaN(parseFloat(a.s))) {return 1;}
+        if (isNaN(parseFloat(b.s))) {return -1;}
+        return (parseFloat(b.s) - parseFloat(a.s));
 }
 function _tabSort(obj,st,total){
-	if (_tabLast==obj) {_tabMode=!(_tabMode);}
-	else {_tabMode=true;}
-	_tabCreateArray(obj,st,total);
-	_tabLast=obj;
-	return _tabMode;
+        if (_tabLast==obj) {_tabMode=!(_tabMode);}
+        else {_tabMode=true;}
+        _tabCreateArray(obj,st,total);
+        _tabLast=obj;
+        return _tabMode;
 }
 function _cmdLine(){
 top.fstatus.document.open();
@@ -551,34 +565,34 @@ function popLayer(a){
 if (navigator.family == \"gecko\") {pad=\"0\"; bord=\"1 bordercolor=black\";}
 else {pad=\"1\"; bord=\"0\";}
 desc = \"<table cellspacing=0 cellpadding=\"+pad+\" border=\"+bord+\"  bgcolor=000000><tr><td>\\n\"
-	+\"<table cellspacing=0 cellpadding=10 border=0 width=100%><tr><td bgcolor=#C1CADE><center><font size=-1>\\n\"
-	+a
-	+\"\\n</td></tr></table>\\n\"
-	+\"</td></tr></table>\";
+        +\"<table cellspacing=0 cellpadding=10 border=0 width=100%><tr><td class=popupstyle><center><font size=-1>\\n\"
+        +a
+        +\"\\n</td></tr></table>\\n\"
+        +\"</td></tr></table>\";
 if(navigator.family ==\"nn4\") {
-	document.object1.document.write(desc);
-	document.object1.document.close();
-	document.object1.left=x+15;
-	document.object1.top=y-5;
-	}
+        document.object1.document.write(desc);
+        document.object1.document.close();
+        document.object1.left=x+15;
+        document.object1.top=y-5;
+        }
 else if(navigator.family ==\"ie4\"){
-	object1.innerHTML=desc;
-	object1.style.pixelLeft=x+15;
-	object1.style.pixelTop=y-5;
-	}
+        object1.innerHTML=desc;
+        object1.style.pixelLeft=x+15;
+        object1.style.pixelTop=y-5;
+        }
 else if(navigator.family ==\"gecko\"){
-	document.getElementById(\"object1\").innerHTML=desc;
-	document.getElementById(\"object1\").style.left=x+15;
-	document.getElementById(\"object1\").style.top=y-5;
-	}
+        document.getElementById(\"object1\").innerHTML=desc;
+        document.getElementById(\"object1\").style.left=x+15;
+        document.getElementById(\"object1\").style.top=y-5;
+        }
 }
 
 function hideLayer(){
 if (overdiv == \"0\") {
-	if(navigator.family ==\"nn4\") {eval(document.object1.top=\"-500\");}
-	else if(navigator.family ==\"ie4\"){object1.innerHTML=\"\";}
-	else if(navigator.family ==\"gecko\") {document.getElementById(\"object1\").style.top=\"-500\";}
-	}
+        if(navigator.family ==\"nn4\") {eval(document.object1.top=\"-500\");}
+        else if(navigator.family ==\"ie4\"){object1.innerHTML=\"\";}
+        else if(navigator.family ==\"gecko\") {document.getElementById(\"object1\").style.top=\"-500\";}
+        }
 }
 
 var isNav = (navigator.appName.indexOf(\"Netscape\") !=-1);
@@ -603,14 +617,14 @@ function dllink() {
 }
 
 function servers() {
-	var l = prompt( \"enter link to server.met for import\", \"\" );
-	if( l != null ) {
-		var f = document.forms[\"cmdFormular\"];
-		var t = f.elements[\"q\"].value;
-		f.elements[\"q\"].value = \"servers \" + l;
-		f.submit();
-		f.elements[\"q\"].value = t;
-	}
+        var l = prompt( \"enter link to server.met for import\", \"\" );
+        if( l != null ) {
+                var f = document.forms[\"cmdFormular\"];
+                var t = f.elements[\"q\"].value;
+                f.elements[\"q\"].value = \"servers \" + l;
+                f.submit();
+                f.elements[\"q\"].value = t;
+        }
 }
 
 function track_changed(obj)
@@ -859,6 +873,7 @@ td.pr {
   padding-left: 5px;
   padding-right: 5px;
   cursor: pointer;
+  color: @color_general_text@;
   }
 tr.dl-1 {
   background: @color_dl1_back@;
@@ -1242,19 +1257,16 @@ onClick=\"mSub('output','porttest')\">" ^ _s
 "Porttest" ^ "</TD>
 <TD class=\"bu bbig\" title=\" " ^ _s "View ChangeLog" ^ " \"
 onMouseOver=\"mOvr(this,'mOvr1');\" onMouseOut=\"mOut(this);\"
-onClick=\"parent.frames[_getFrameByName('output')].location.href='http://savannah.nongnu.org/cgi-bin/viewcvs/mldonkey/mldonkey/distrib/ChangeLog?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup'\">" ^ _s
+onClick=\"parent.frames[_getFrameByName('output')].location.href='https://raw.githubusercontent.com/ygrek/mldonkey/master/CHANGES'\">" ^ _s
 "ChangeLog" ^ "</TD>
 <TD class=\"bu bbig\" title=\" " ^ _s "Homepage" ^ " \"
 onMouseOver=\"mOvr(this,'mOvr1');\" onMouseOut=\"mOut(this);\"
 onClick=\"parent.frames[_getFrameByName('output')].location.href='http://mldonkey.sourceforge.net'\">" ^ _s
 "Homepage" ^ "</TD>
-<TD class=\"bu bbig\" title=\" " ^ _s "Support forum english" ^ " \"
+<TD class=\"bu bbig\" title=\" " ^ _s "Support forum" ^ " \"
 onMouseOver=\"mOvr(this,'mOvr1');\" onMouseOut=\"mOut(this);\"
 onClick=\"parent.frames[_getFrameByName('output')].location.href='http://mldonkey.sourceforge.net/forums'\">" ^ _s
 "English support" ^ "</TD>
-<TD class=\"bu bbig\" title=\" " ^ _s "Support forum german" ^ " \"
-onMouseOver=\"mOvr(this,'mOvr1');\" onMouseOut=\"mOut(this);\"
-onClick=\"parent.frames[_getFrameByName('output')].location.href='http://mldonkey.org/phpbb2'\">German forum" ^ "</TD>
 <TD class=\"bu bbig\" title=\" " ^ _s "View core log" ^ " \"
 onMouseOver=\"mOvr(this,'mOvr1');\" onMouseOut=\"mOut(this);\"
 onClick=\"mSub('output','log')\">" ^ _s
@@ -1348,7 +1360,7 @@ let web_common_header_old = define_option message_section ["web_common_header_ol
   "
 <table width=\"100%\" border=\"0\">
 <tr>
-<td align=\"left\" valign=\"middle\" width=\"*\"><a href=\"http://www.mldonkey.org/\" $O><b>MLDonkey Home</b></a></td>
+<td align=\"left\" valign=\"middle\" width=\"*\"><a href=\"http://mldonkey.sf.net/\" $O><b>MLDonkey Home</b></a></td>
 <form action=\"submit\" $O name=\"cmdFormular\" onSubmit=\"return CheckInput();\">
 <td><input type=\"text\" name=\"q\" size=60 value=\"\"></td>
 <td><input type=\"submit\" value=\"Execute\"></td>
@@ -1383,7 +1395,7 @@ let web_common_header_old = define_option message_section ["web_common_header_ol
 <td><a href=\"submit?q=vr\" onMouseOver=\"window.status='View results to your queries';return true;\" onMouseOut=\"window.status='';return true;\" onFocus=\"this.blur();\" $O>Search results</a></td>
 <td><a href=\"submit?q=ovweb\" onMouseOver=\"window.status='Boot Overnet peers from http list';return true;\" onMouseOut=\"window.status='';return true;\" onFocus=\"this.blur();\" $S>Load Overnet peers</a></td>
 <td><a class=\"extern\" href=\"http://mldonkey.sf.net/forums/\" onMouseOver=\"window.status='MLDonkey World';return true;\" onMouseOut=\"window.status='';return true;\" onFocus=\"this.blur();\" $O>English forum</a></td>
-<td><a class=\"extern\" href=\"http://www.mldonkey.org/\" onMouseOver=\"window.status='German Forum';return true;\" onMouseOut=\"window.status='';return true;\" onFocus=\"this.blur();\" $O>German forum</a></td>
+<td><a class=\"extern\" href=\"http://mldonkey.sf.net/\" onMouseOver=\"window.status='German Forum';return true;\" onMouseOut=\"window.status='';return true;\" onFocus=\"this.blur();\" $O>German forum</a></td>
 <td><a href=\"submit?q=kill\" onMouseOver=\"window.status='Save and quit MLDonkey';return true;\" onMouseOut=\"window.status='';return true;\" onFocus=\"this.blur();\" $O>Kill MLDonkey</a></td>
   </tr>
   </table>
@@ -1539,6 +1551,9 @@ type style_type = {
   color_some_scrollbar: string;
   color_some_border: string;
   color_one_td_text: string;
+  color_header2_text: string;
+  color_header3_text: string;
+  color_background_popup: string;
   frame_height: int
 }
 
@@ -1581,6 +1596,9 @@ let dummy_style = {
   color_some_scrollbar = "#000";
   color_some_border = "#000";
   color_one_td_text = "#000";
+  color_header2_text = "#000";
+  color_header3_text = "#000";
+  color_background_popup = "#000";
   frame_height = 0;
 }
 
@@ -1624,6 +1642,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#FFF"; 
     color_one_td_text = "#555";
+    color_header2_text = "#000";
+    color_header3_text = "#000";
+    color_background_popup = "#C1CADE";
     frame_height = 46; };
   
   { style_name = "Orange Tang";
@@ -1664,6 +1685,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#FFF"; 
     color_one_td_text = "#555";
+    color_header2_text = "#000";
+    color_header3_text = "#000";
+    color_background_popup = "#C1CADE";
     frame_height = 46; };
 
   { style_name = "Light blue";
@@ -1704,6 +1728,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#FFF"; 
     color_one_td_text = "#555";
+    color_header2_text = "#000";
+    color_header3_text = "#000";
+    color_background_popup = "#C1CADE";
     frame_height = 46; };
   
   { style_name = "Light purple";
@@ -1744,6 +1771,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#FFF"; 
     color_one_td_text = "#555";
+    color_header2_text = "#000";
+    color_header3_text = "#000";
+    color_background_popup = "#C1CADE";
     frame_height = 46; };
   
   { style_name = "Monochrome";
@@ -1784,6 +1814,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#FFF"; 
     color_one_td_text = "#555";
+    color_header2_text = "#000";
+    color_header3_text = "#000";
+    color_background_popup = "#C1CADE";
     frame_height = 46; };
 
   { style_name = "Corona";
@@ -1824,6 +1857,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#FFF"; 
     color_one_td_text = "#555";
+    color_header2_text = "#000";
+    color_header3_text = "#000";
+    color_background_popup = "#C1CADE";
     frame_height = 46; };
 
   { style_name = "Coronax";
@@ -1864,6 +1900,52 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#8195D6"; 
     color_one_td_text = "#555";
+    color_header2_text = "#D4C9B7";
+    color_header3_text = "#D4C9B7";
+    color_background_popup = "#C1CADE";
+    frame_height = 46; };
+  
+  { style_name = "Warm Colors Dark";
+    color_background = "#31363B";
+    color_scrollbar_face = "#616569";  
+    color_scrollbar_highlight = "#616569"; 
+    color_vd_page_background = "#616569";
+    color_big_buttons_and_border_highlight = "#616569"; 
+    color_input_text = "#e9b312"; 
+    color_input_button = "#e9b312"; 
+    color_foreground_text_for_top_buttons = "#ff0000";
+    color_fbig_background = "#e9b311"; 
+    color_bbig_background = "#232629"; 
+    color_bsmall_back = "#e9b312"; 
+    color_bsmall2 = "#e9b312"; 
+    color_bsmall3 = "#232629";
+    color_border_of_top_buttons = "#e9b312"; 
+    color_table_header_background = "#232629"; 
+    color_mOver1_back = "#e9b311"; 
+    color_mOver2_back = "#e9b311"; 
+    color_mOver3_back = "#e9b311";
+    color_dl1_back = "#31363b"; 
+    color_dl2_back = "#232629"; 
+    color_chunk0 = "#FFFFFF"; 
+    color_chunk1 = "#c1940e"; 
+    color_chunk2 = "#624b07"; 
+    color_chunk3 = "#151002"; 
+    color_vd_downloaded = "#e9b311"; 
+    color_vd_remaining = "#616569";
+    color_general_text = "#FFFFFF"; 
+    color_general_border = "#000"; 
+    color_anchor = "#FFFFFF"; 
+    color_anchor_hover = "#FFFFFF"; 
+    color_download_anchor = "#e9b312"; 
+    color_download_anchor_hover = "#e9b312";
+    color_external_anchor = "#e9b312"; 
+    color_external_anchor_hover = "#e9b312"; 
+    color_some_scrollbar = "#e9b312"; 
+    color_some_border = "#616569"; 
+    color_one_td_text = "#e9b311";
+    color_header2_text = "#ffffff";
+    color_header3_text = "#ffffff";
+    color_background_popup = "#e9b311";
     frame_height = 46; };
 
   { style_name = "Construction";
@@ -1904,6 +1986,9 @@ let styles = Array.of_list [
     color_some_scrollbar = "#000"; 
     color_some_border = "#8195D6"; 
     color_one_td_text = "#555";
+    color_header2_text = "#D4C9B7";
+    color_header3_text = "#D4C9B7";
+    color_background_popup = "#C1CADE";
     frame_height = 46; } ]
 
 let style_codes = [
@@ -1944,6 +2029,9 @@ let style_codes = [
   "@color_some_scrollbar@";
   "@color_some_border@";
   "@color_one_td_text@";
+  "@color_header2_text@";
+  "@color_header3_text@";
+  "@color_background_popup@";
 
 (* legacy values *)
   "@C0@";"@C1@";"@C2@";"@C3@";
@@ -1955,7 +2043,7 @@ let style_codes = [
   "@C24@";"@C25@";"@C26@";"@C27@";
   "@C28@";"@C29@";"@C30@";"@C31@";
   "@C32@";"@C33@";"@C34@";"@C35@";
-  "@C36@"]
+  "@C36@";"@C37@";"@C38@";"@C39@"]
 
 (* code substitutions *)
 let color_from_style stylenum code = 
@@ -1998,6 +2086,9 @@ let color_from_style stylenum code =
   | "@color_some_scrollbar@" | "@C34@" -> style.color_some_scrollbar
   | "@color_some_border@" | "@C35@" -> style.color_some_border
   | "@color_one_td_text@" | "@C36@" -> style.color_one_td_text
+  | "@color_header2_text@" | "@C37@" -> style.color_header2_text
+  | "@color_header3_text@" | "@C38@" -> style.color_header3_text
+  | "@color_background_popup@" | "@C39@" -> style.color_background_popup
   | _ -> assert false
 
 
@@ -2025,7 +2116,7 @@ let load_message_file () =
    Users can set _load_message_section true if they want to modify and use their own.
    (reload_messages command)
 *)
-	if (not !!CommonOptions.html_mods) || (!!CommonOptions.html_mods && !!CommonOptions.html_mods_load_message_file) then begin
+        if (not !!CommonOptions.html_mods) || (!!CommonOptions.html_mods && !!CommonOptions.html_mods_load_message_file) then begin
     try
       Options.load message_file
     with

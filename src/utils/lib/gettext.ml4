@@ -18,7 +18,6 @@
 *)
 
 open Printf2
-open Autoconf
 
 let log_prefix = "[Gettext]"
 
@@ -342,7 +341,7 @@ let save_strings () =
   | Some filename ->
       if !save_strings_file && not !strings_file_error then	
         try
-	  Unix2.tryopen_write filename (fun oc ->
+          Unix2.tryopen_write filename (fun oc ->
             
             Hashtbl.iter (fun modname names ->
 
@@ -477,7 +476,7 @@ and parse_next = parser
 in
 
       try
-	Unix2.tryopen_read f2 (fun ic ->
+        Unix2.tryopen_read f2 (fun ic ->
        let s = Stream.of_channel ic in
         try
           let stream = lexer s in

@@ -21,21 +21,17 @@ open Int64ops
 open Md4
 open CommonShared
 open Printf2
-open CommonInteractive
 open CommonClient
-open CommonComplexOptions
 open CommonTypes
 open CommonFile
 open Options
-open BasicSocket
-open TcpBufferedSocket
 
 open CommonGlobals
 open CommonOptions
 
 let log_prefix = "[cUp]"
 
-let lprintf_nl fmt = 
+let lprintf_nl fmt =
   lprintf_nl2 log_prefix fmt
 
 let lprintf_n fmt =
@@ -835,9 +831,9 @@ let rec give_a_slot c =
 
 and find_pending_slot () =
   try
-    let rec iter () =
+    let iter () =
       let c = Intmap.nth !pending_slots_map 
-	(Random.int (Intmap.length !pending_slots_map)) in
+        (Random.int (Intmap.length !pending_slots_map)) in
       give_a_slot c
     in
     iter ()
@@ -878,12 +874,12 @@ let add_pending_slot c =
   in
   match slot_type with
     Some slot ->
-	remove_pending_slot c;
-	if client_is_connected c then
-	  begin
-	    set_client_has_a_slot c slot;
-	    client_enter_upload_queue c
-	  end
+        remove_pending_slot c;
+        if client_is_connected c then
+          begin
+            set_client_has_a_slot c slot;
+            client_enter_upload_queue c
+          end
   | None -> add_pending_slot c
 
 let static_refill_upload_slots () =

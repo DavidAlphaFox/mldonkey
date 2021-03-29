@@ -18,31 +18,18 @@
 *)
 
 open Int64ops
-open Queues
 open Printf2
-open Md4
 open Options
 
 open BasicSocket
 open TcpBufferedSocket
 
-open CommonShared
-open CommonUploads
-open CommonOptions
-open CommonDownloads
-open CommonInteractive
 open CommonClient
-open CommonComplexOptions
 open CommonTypes
-open CommonFile
-open CommonGlobals
-open CommonDownloads
 
 open FileTPTypes
 open FileTPOptions
 open FileTPGlobals
-open FileTPComplexOptions
-open FileTPProtocol
 
 open FileTPClients
 
@@ -91,7 +78,7 @@ let segment_received c num s pos =
         match d.download_uploader with
           None -> assert false
         | Some up ->
-			  
+                          
             let swarmer = CommonSwarming.uploader_swarmer up in
 
             let old_downloaded =
@@ -103,8 +90,8 @@ let segment_received c num s pos =
             let new_downloaded =
               CommonSwarming.downloaded swarmer in
 
-	    c.client_session_downloaded <- c.client_session_downloaded ++ (new_downloaded -- old_downloaded);
-	    c.client_total_downloaded <- c.client_total_downloaded ++ (new_downloaded -- old_downloaded);
+            c.client_session_downloaded <- c.client_session_downloaded ++ (new_downloaded -- old_downloaded);
+            c.client_total_downloaded <- c.client_total_downloaded ++ (new_downloaded -- old_downloaded);
             client_must_update (as_client c);
 
             if new_downloaded = file_size file then

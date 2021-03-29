@@ -44,7 +44,7 @@ let (=:=) = Options.(=:=)
 
 let short_name n =
   let n = if n="" then
-     "http://www.mldonkey.org"
+     "http://mldonkey.sf.net"
   else n
   in
   let len = String.length n in
@@ -126,7 +126,7 @@ let rec rec_description_of_query q =
 
   | Q_ANDNOT (q1, q2) -> rec_description_of_query q1
   | Q_MODULE (_,q) -> rec_description_of_query q
-	
+        
   | Q_KEYWORDS (_,s) -> [s]
   | Q_MINSIZE _ 
   | Q_MAXSIZE _ -> []
@@ -160,10 +160,10 @@ let size_of_int32 size =
       if f > mo then
       Printf.sprintf "%.1fM" (f /. mo)
       else
-	if f > ko then
-	  Printf.sprintf "%.1fk" (f /. ko)
-	else
-	  Int32.to_string size
+        if f > ko then
+          Printf.sprintf "%.1fk" (f /. ko)
+        else
+          Int32.to_string size
   else
     Int32.to_string size
 
@@ -177,10 +177,10 @@ let size_of_int64 size =
       if f > mo then
       Printf.sprintf "%.1fM" (f /. mo)
       else
-	if f > ko then
-	  Printf.sprintf "%.1fk" (f /. ko)
-	else
-	  Int64.to_string size
+        if f > ko then
+          Printf.sprintf "%.1fk" (f /. ko)
+        else
+          Int64.to_string size
   else
     Int64.to_string size
 

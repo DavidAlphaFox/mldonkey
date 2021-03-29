@@ -25,7 +25,7 @@ let rec removeq_rec ele list tail =
       else
         removeq_rec ele list (e :: tail)
 
-let rec removeq ele list =
+let removeq ele list =
   removeq_rec ele list []
 
 let rec remove_rec ele list tail =
@@ -118,5 +118,5 @@ let iteri f l =
   let rec loop i = function
   | [] -> ()
   | x::xs -> f i x; loop (i+1) xs
-	in
-	loop 0 l
+        in
+        loop 0 l

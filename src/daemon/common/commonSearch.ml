@@ -163,7 +163,7 @@ let custom_query buf query =
   can_search :=
     networks_iter_all_until_true (fun net ->
       try 
-	network_is_enabled net && List.mem NetworkHasSearch net.network_flags
+        network_is_enabled net && List.mem NetworkHasSearch net.network_flags
       with _ -> false
     );
   if !can_search then begin
@@ -171,7 +171,7 @@ let custom_query buf query =
     let q = List.assoc query (CommonComplexOptions.customized_queries()) in
     Printf.bprintf buf "
     <center>
-    <h2> %s </h2>
+    <h2 class=\"header2\"> %s </h2>
     </center>
 
 <form action=\"submit\">
@@ -263,13 +263,13 @@ let custom_query buf query =
       | Q_KEYWORDS (label, default) ->
           Printf.bprintf buf "
 <table border=0>
-          <td width=100 align=right>%s</td><td><input type=text name=keywords size=40 value=\"%s\"></td>
+          <td class=\"txt\" width=100 align=right>%s</td><td><input type=text name=keywords size=40 value=\"%s\"></td>
 </table>" label default
       
       | Q_MINSIZE (label, default) ->
           Printf.bprintf  buf "
 <table border=0>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 
 <td> 
 <input type=text name=minsize size=40 value=\"%s\">
@@ -293,7 +293,7 @@ let custom_query buf query =
       | Q_MAXSIZE (label, default) ->
           Printf.bprintf  buf "
 <table border=0>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 
 <td> 
 <input type=text name=maxsize size=40 value=\"%s\">
@@ -319,7 +319,7 @@ let custom_query buf query =
 <table border=0>
 
 <tr>
-<td width=100 align=right>
+<td class=\"txt\" width=100 align=right>
 %s
 </td>
 
@@ -345,7 +345,7 @@ let custom_query buf query =
 <table border=0>
 
 <tr>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 <td> 
 <input type=text name=album size=40 value=\"%s\">
 </td>
@@ -359,7 +359,7 @@ let custom_query buf query =
 <table border=0>
 
 <tr>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 <td> 
 <input type=text name=title size=40 value=\"%s\">
 </td>
@@ -373,7 +373,7 @@ let custom_query buf query =
 <table border=0>
 
 <tr>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 <td> 
 <input type=text name=artist size=40 value=\"%s\">
 </td>
@@ -388,7 +388,7 @@ let custom_query buf query =
 <table border=0>
           
 <tr>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 
 <td> 
 <input type=text name=media size=40 value=\"%s\">
@@ -416,7 +416,7 @@ let custom_query buf query =
           Printf.bprintf  buf "
 <table border=0>
 <tr>
-<td width=100 align=right> %s </td> 
+<td class=\"txt\" width=100 align=right> %s </td> 
 
 <td> 
 <input type=text name=format size=40 value=\"%s\">
@@ -438,7 +438,7 @@ let custom_query buf query =
           " label default
       
       | Q_MODULE (label, q) -> 
-          Printf.bprintf buf "<table border=0> <tr><td> <h3> %s </h3> </td></tr>" label;
+          Printf.bprintf buf "<table border=0> <tr><td> <h3 class=\"header3\"> %s </h3> </td></tr>" label;
           Printf.bprintf buf "<tr><td>";
           iter q in_op;
           Printf.bprintf buf "</td></tr>";
@@ -516,22 +516,22 @@ let custom_query buf query =
     Printf.bprintf buf "</td></tr>";
     Printf.bprintf buf "</table>";
     
-    Printf.bprintf buf "<table border=0> <tr><td> <h3> Misc </h3> </td></tr>";
+    Printf.bprintf buf "<table border=0> <tr><td> <h3 class=\"header3\"> Misc </h3> </td></tr>";
     Printf.bprintf buf "<tr><td>";
     
     Printf.bprintf buf "
 <table border=0>
-          <td width=100 align=right>Network</td><td>
+          <td class=\"txt\" width=100 align=right>Network</td><td>
     <select name=network>
     <option value=\"\"> --- </option>            
 ";    
     networks_iter_all (fun net ->
         let name = net.network_name in
         try 
-	  if network_is_enabled net && 
-	    List.mem NetworkHasSearch net.network_flags then
+          if network_is_enabled net && 
+            List.mem NetworkHasSearch net.network_flags then
               Printf.bprintf buf 
-		"<option value=\"%s\"> %s </option>" name name
+                "<option value=\"%s\"> %s </option>" name name
         with _ -> ()
     );
     Printf.bprintf buf "
@@ -680,7 +680,7 @@ let complex_search buf =
 </tr>
 
 <tr>
-<td> Artist </td> 
+<td class=\"txt\"> Artist </td> 
 <td> 
 <input type=text name=artist size=40 value=\"\">
 </td>
@@ -750,10 +750,10 @@ Min bitrate
   networks_iter_all (fun net ->
       let name = net.network_name in
       try 
-	if network_is_enabled net && 
-	  List.mem NetworkHasSearch net.network_flags then
+        if network_is_enabled net && 
+          List.mem NetworkHasSearch net.network_flags then
             Printf.bprintf buf 
-	      "<option value=\"%s\"> %s </option>" name name
+              "<option value=\"%s\"> %s </option>" name name
       with _ -> ()
   );
   Printf.bprintf buf "
@@ -811,24 +811,24 @@ let rec mftp_query_of_query_entry qe =
   | Q_COMBO _ -> assert false
   | Q_AND (h :: q) ->
       List.fold_left
-	(fun acc -> fun q -> QAnd (acc, mftp_query_of_query_entry q))
-	(mftp_query_of_query_entry h)
-	q
+        (fun acc -> fun q -> QAnd (acc, mftp_query_of_query_entry q))
+        (mftp_query_of_query_entry h)
+        q
 
   | Q_OR [_] -> lprintf_nl "Q_OR [_]"; QNone
   | Q_OR ([]) -> QNone
   | Q_OR (h :: q) ->
       List.fold_left
-	(fun acc -> fun q -> QOr (acc, mftp_query_of_query_entry q))
-	(mftp_query_of_query_entry h)
-	q
+        (fun acc -> fun q -> QOr (acc, mftp_query_of_query_entry q))
+        (mftp_query_of_query_entry h)
+        q
   | Q_ANDNOT (q1,q2) ->
       QAndNot 
-	(mftp_query_of_query_entry q1,
-	 mftp_query_of_query_entry q2)
+        (mftp_query_of_query_entry q1,
+         mftp_query_of_query_entry q2)
   | Q_MODULE (_, q) ->
       mftp_query_of_query_entry q
-	
+        
   | Q_KEYWORDS (_,s) ->
       (
        try want_and_not andnot (fun w -> QHasWord w) QNone s
@@ -848,43 +848,43 @@ let rec mftp_query_of_query_entry qe =
   | Q_FORMAT (_,s) ->
       (
        try
-	 want_comb_not andnot or_comb (fun w -> QHasField(Field_Format, w)) QNone s
+         want_comb_not andnot or_comb (fun w -> QHasField(Field_Format, w)) QNone s
        with Not_found ->
-	 QNone
+         QNone
       )
   | Q_MEDIA (_,s) ->
       (
        try QHasField(Field_Type, List.assoc s search_media_list)
        with Not_found -> 
-	 match String2.split_simplify s ' ' with
-	   [] -> QNone
-	 | _ -> QHasField (Field_Type, s)
+         match String2.split_simplify s ' ' with
+           [] -> QNone
+         | _ -> QHasField (Field_Type, s)
       )
-	
+        
   | Q_MP3_ARTIST (_,s) ->
       (
        try 
-	 want_comb_not andnot and_comb 
+         want_comb_not andnot and_comb 
            (fun w -> QHasField(Field_Artist, w)) QNone s
        with Not_found ->
-	 QNone
+         QNone
       )
 
   | Q_MP3_TITLE (_,s) ->
       (
        try 
-	 want_comb_not andnot and_comb 
+         want_comb_not andnot and_comb 
            (fun w -> QHasField(Field_Title, w)) QNone s
        with Not_found ->
-	 QNone
+         QNone
       ) 
   | Q_MP3_ALBUM (_,s) ->
       (
        try 
-	 want_comb_not andnot and_comb 
+         want_comb_not andnot and_comb 
            (fun w -> QHasField(Field_Album, w)) QNone s
        with Not_found ->
-	 QNone
+         QNone
       )
 
   | Q_MP3_BITRATE (_,s) ->
